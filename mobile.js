@@ -25,11 +25,6 @@ function handleOrientation(e) {
   let gamma = e.gamma; // Y: left-right tilt  → splitMode change
   let alpha = e.alpha; // Z: twist/compass    → reverse
 
-  // X축 → targetAngle (desktop lid tilt 대응)
-  if (beta !== null) {
-    targetAngle = Math.max(40, Math.min(140, ((beta + 90) / 180) * 100 + 40));
-  }
-
   let now = Date.now();
 
   // Y축 → |gamma| 기반 splitMode 매핑 (0°→1, ±80°→10)
@@ -37,13 +32,15 @@ function handleOrientation(e) {
     splitMode = Math.min(10, Math.max(1, Math.round((Math.min(Math.abs(gamma), 80) / 80) * 9) + 1));
   }
 
-  // Z축 → reverse 토글 (60° 이상 회전하면 트리거, 1000ms 쿨다운)
-  if (alpha !== null && now - _lastReverseTime > 1000) {
-    let diff = Math.abs(alpha - _lastAlpha);
-    if (diff > 180) diff = 360 - diff;
-    if (diff > 60) {
+  // Z축 → targetAngle (나침반 회전, 0°~360° → 40~140 매핑)
+  if (alpha !== null) {
+    targetAngle = Math.max(40, Math.min(140, (alpha / 360) * 100 + 40));
+  }
+
+  // X축 → reverse 토글 (앞뒤 60° 이상 기울면 트리거, 1000ms 쿨다운)
+  if (beta !== null && now - _lastReverseTime > 1000) {
+    if (Math.abs(beta) > 60) {
       reverseRatios = !reverseRatios;
-      _lastAlpha = alpha;
       _lastReverseTime = now;
     }
   }
