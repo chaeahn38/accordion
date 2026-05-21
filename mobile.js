@@ -65,7 +65,7 @@ function applyMobileSplitShiftX() {
 function setupMobile() {
   if (!isMobile) return;
 
-  // 화면 터치 → 단어 입력창 열기
+  // 화면 터치 → 입력창 토글 (input 자체 터치는 제외)
   document.addEventListener(
     "touchend",
     function (e) {
@@ -74,6 +74,9 @@ function setupMobile() {
       if (wordInputEl.elt.style.display === "none" || wordInputEl.elt.style.display === "") {
         wordInputEl.style("display", "block");
         wordInputEl.elt.focus();
+      } else {
+        wordInputEl.style("display", "none");
+        wordInputEl.value("");
       }
     },
     { passive: true }
