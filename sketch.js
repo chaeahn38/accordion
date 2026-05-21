@@ -70,6 +70,8 @@ function setup() {
     }
     e.stopPropagation();
   });
+
+  if (isMobile) applyMobileSplitShiftX();
 }
 
 function keyPressed() {
