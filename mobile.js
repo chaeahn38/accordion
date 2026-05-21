@@ -32,9 +32,9 @@ function handleOrientation(e) {
 
   let now = Date.now();
 
-  // Y축 → gamma 각도 직접 splitMode 매핑 (-90°~+90° → 1~10)
+  // Y축 → |gamma| 기반 splitMode 매핑 (0°→1, ±80°→10)
   if (gamma !== null) {
-    splitMode = Math.min(10, Math.max(1, Math.ceil(((gamma + 90) / 180) * 10)));
+    splitMode = Math.min(10, Math.max(1, Math.round((Math.min(Math.abs(gamma), 80) / 80) * 9) + 1));
   }
 
   // Z축 → reverse 토글 (60° 이상 회전하면 트리거, 1000ms 쿨다운)
