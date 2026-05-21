@@ -3,7 +3,7 @@
 let word = "a";
 let splitMode = 1; // 1 = angle-based, 2 = two equal, 3 = three equal
 
-let activeMode = "auto"; // "sketch" | "auto"
+let activeMode = isMobile ? "sketch" : "auto"; // "sketch" | "auto"
 
 let reverseRatios = false;
 let lineGap = 0;
